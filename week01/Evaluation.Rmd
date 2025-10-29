@@ -6,10 +6,18 @@ output: html_notebook
 # Evaluating Survey Results
 ## Loading the table
 ```{r}
-file = r"(C:\Users\Valen\OneDrive\Dokumente\MASTER\WiSe_25_26\AppliedStatistics\Project\Week1\Week1_Survey_Results.csv)"
+# file = r"(C:\Users\Valen\OneDrive\Dokumente\MASTER\WiSe_25_26\AppliedStatistics\Project\Week1\Week1_Survey_Results.csv)"
+
+file = r"(C:\Users\Valentin\Documents\GIT_REPS\TUHH\AppliedStatistics\Applied-Statistics\week01\Week1_Survey_Results.csv)"
 
 survey <- read.csv(file, header = TRUE, sep = ",")
 ```
+## Clean the Data
+```{r}
+# survey$Reason <- gsub("", NA, survey$Reason)
+```
+
+
 ## View the Data
 ### histograms
 ```{r}
@@ -21,5 +29,8 @@ barplot(table(survey$Drinks.Coffee))
 barplot(table(survey$Semester))
 barplot(table(survey$Rating))
 barplot(table(survey$Reason))
+barplot(table(survey$Location))
 
+# boxplot(survey$Rating)
+# boxplot(survey$Semester)
 ```
