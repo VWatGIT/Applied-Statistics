@@ -1,0 +1,60 @@
+Participant,Drinks Coffee,Semester,Location,Rating,Type,Reason
+1,Y,1,H,5,Coffee,Q
+2,N,1,,,,
+3,Y,1,NiT,3.5,with milk,C
+4,Y,3,A,3,chai latte,C
+5,Y,3,Cafe im Grünen,3,black,P
+6,N,3,,,,
+7,N,9,,,,
+8,Y,3,Campus Shop,3, latte machiatto,C
+9,N,3,,,,
+10,N,12,,,,
+11,Y,3,NiT,4,caramel machiatto,C
+12,Y,1,Campus Shop,3,Espresso,P
+13,Y,3,A,3.5,Latte,C
+14,Y,3,A,2.5,Chai Latte,C
+15,Y,3,A,4,Choclate,C
+16,Y,3,A,3,Latte,C
+17,Y,3,A,5,Choclate,C
+18,Y,3,Mensa,3,Choclate,Q
+19,Y,3,Mensa,4,Cappucino,Q
+20,Y,3,Mensa,4.5,Cappucino,Q
+21,N,1,,,,
+22,N,1,,,,
+23,Y,5,A,2,Cappucino,C
+24,Y,1,NiT,3.5,Cappucino,C
+25,Y,1,NiT,3,Cappucino,C
+26,Y,1,NiT,3,Latte Machiatto,C
+27,N,1,,,,
+28,N,1,,,,
+29,Y,0,Mensa,3,Cafe Crema,C
+30,Y,3,Campus Shop,2,Cappucino,C
+31,Y,5,B,5,Cappucino,Q
+32,Y,0,Campus Shop,1,Cafe Vanilla,C
+33,Y,3,A,2,Black,P
+34,N,1,,,,
+35,N,7,,,,
+36,Y,0,NiT,3,Coffee,C
+37,Y,1,A,5,Vanilla Cappucino,Q
+38,Y,0,E,5,Cappucino,Q
+39,N,9,Campus Shop,3,Filter,Q
+40,Y,7,,,,
+41,N,5,,,,
+42,N,9,,,,
+43,N,9,,,,
+44,N,14,,,,
+45,N,1,,,,
+46,N,11,,,,
+47,N,1,,,,
+48,Y,1,B,4,Cappucino,Q
+49,N,1,,,,
+50,Y,1,NiT,3,Cappucino,C
+51,Y,1,NiT,2,Latte,C
+52,Y,1,NiT,2.5,Filter,C
+53,Y,11,Mensa,5,Coffee,C
+54,Y,15,Sofa Cafe,3,French Press,P
+55,Y,15,Cafe im Grünen,4,Caramel Iced Latte,Q
+56,Y,13,Sofa Cafe,2,French Press,C
+57,Y,15,Sofa Cafe,2,French Press,C
+58,Y,19,Sofa Cafe,5,French Press,Q
+59,Y,1,Sofa Cafe ,4,French Press,C
