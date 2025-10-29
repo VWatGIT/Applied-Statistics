@@ -38,7 +38,7 @@ Participant,Drinks Coffee,Semester,Location,Rating,Type,Reason
 37,Y,1,A,5,Vanilla Cappucino,Q
 38,Y,0,E,5,Cappucino,Q
 39,N,9,Campus Shop,3,Filter,Q
-40,Y,7,,,,
+40,N,7,,,,
 41,N,5,,,,
 42,N,9,,,,
 43,N,9,,,,

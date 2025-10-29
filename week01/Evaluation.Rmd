@@ -3,18 +3,39 @@ title: "Survey Results"
 output: html_notebook
 ---
 
+
+
 # Evaluating Survey Results
+## Setup
+```{r}
+library(ggplot2)
+library(tidyverse)
+# library(summarytools)
+```
+
+
 ## Loading the table
 ```{r}
 # file = r"(C:\Users\Valen\OneDrive\Dokumente\MASTER\WiSe_25_26\AppliedStatistics\Project\Week1\Week1_Survey_Results.csv)"
 
-file = r"(C:\Users\Valentin\Documents\GIT_REPS\TUHH\AppliedStatistics\Applied-Statistics\week01\Week1_Survey_Results.csv)"
+file = r"(C:\Users\Valentin\Documents\GIT_REPS\TUHH\Applied-Statistics\week01\Week1_Survey_Results.csv)"
 
 survey <- read.csv(file, header = TRUE, sep = ",")
 ```
+
+
 ## Clean the Data
 ```{r}
-# survey$Reason <- gsub("", NA, survey$Reason)
+# select all coffee drinkers and remove trailing and leading whitespaces
+filtered_survey <- survey |> filter(Drinks.Coffee == 'Y') |> mutate(across(where(is.character), str_trim))
+
+all_semesters <- survey$Semester
+semesters <- filtered_survey$Semester
+locations <- filtered_survey$Location 
+ratings <- filtered_survey$Rating
+types <- filtered_survey$Type
+reasons <-filtered_survey$Reason
+
 ```
 
 
@@ -26,11 +47,45 @@ barplot(table(survey$Drinks.Coffee))
 # hist(survey$Semester, breaks = seq(0, 20, 1))
 # hist(survey$Rating, breaks = seq(0, 5, 1))
 
-barplot(table(survey$Semester))
-barplot(table(survey$Rating))
-barplot(table(survey$Reason))
-barplot(table(survey$Location))
-
-# boxplot(survey$Rating)
-# boxplot(survey$Semester)
+barplot(table(all_semesters))
+barplot(table(ratings))
+barplot(table(reasons))
+barplot(table(locations), cex.names = 0.6, las = 2)
 ```
+## Analyze the data
+### How are Locations rated?
+```{r}
+
+# descr(filtered_survey)
+
+location_rating <- filtered_survey |> 
+  group_by(Location) |>
+  summarize(mean_rating = mean(Rating), N = n()) |>
+  arrange(desc(mean_rating))
+
+print(location_rating)
+
+
+barplot(location_rating$mean_rating,
+        names.arg = location_rating$Location,
+        ylab = "Mean Rating",
+        main = "Mean Rating per Location",
+        las = 2)
+
+```
+### How do the semesters correspond to the Students Ratings
+```{r}
+semester_rating <- filtered_survey |>
+  group_by(Semester) |>
+  summarize(mean_rating = mean(Rating), N = n(), .groups = "drop")
+
+print(semester_rating)
+
+ggplot(semester_rating, aes(x = Semester, y = mean_rating)) +
+  geom_point(fill = "skyblue") +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = "Mean Rating per Semester with linear trend", y = "Mean Rating", x = "Semester") +
+  theme_minimal()
+```
+
+
