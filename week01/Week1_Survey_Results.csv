@@ -58,3 +58,41 @@ Participant,Drinks Coffee,Semester,Location,Rating,Type,Reason
 57,Y,15,Sofa Cafe,2,French Press,C
 58,Y,19,Sofa Cafe,5,French Press,Q
 59,Y,1,Sofa Cafe ,4,French Press,C
+60,Y,1,A,3,Vanilla Cappuccino,C
+61,N,1,,,,
+62,N,3,Institute Pantries (They are cheaper),3,Chai Latte,P
+63,Y,9,Campus Shop,2,Cappuccino ,C
+64,Y,3,Campus Shop,4,Espresso Machiatto,C
+65,Y,1,Campus Shop,3,Cappuccino ,C
+66,Y,3,Campus Shop,3,Latte Machiatto,P
+67,Y,3,Campus Shop,3,Espresso,P
+68,Y,11,Campus Shop,4,Cappuccino ,C
+69,Y,4,A,2,Latte Machiatto ,C
+70,N,2,,,,
+71,Y,2,A,3,Cappuccino Vanilla ,C
+72,Y,2,A,3,Cappuccino ,P
+73,Y,2,A,3,Latte,P
+74,Y,5,A,2,Caramel Cappuccino,P
+75,Y,5,Campus Shop,3,Black Coffee ,P
+76,Y,4,A,4, Chai Tea,C
+77,Y,5,A,4,Vanilla Cappuccino,C
+78,Y,1,A,4,Cappuccino Vanilla,C
+79,Y,0,A,4,Latte,P
+80,N,1,,,,
+81,Y,3,B,4,Cappuccino,Q
+82,N,2,,,,
+83,Y,2,A,2,Espresso,C
+84,Y,5,A,4,Chai Tea,C
+85,N,4,,,,
+86,N,2,,,,
+87,Y,1,A,4,Espresso,C
+88,Y,1,A,4,Cafe Latte,P
+89,N,1,,,,
+90,N,2,,2,Cappuccino ,
+91,Y,4,O,4,Cafe latte,C
+92,Y,4,A,3,Cappuccino ,C
+93,Y,2,Zess Cafe,2,Black Coffee,P
+94,Y,3,B,4,Cappuccino,Q
+95,Y,2,B,3,Cappuccino,C
+96,N,5,,,,
+97,Y,5,Mensa,3,Black Coffee,C
