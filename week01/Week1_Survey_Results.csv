@@ -96,3 +96,18 @@ Participant,Drinks Coffee,Semester,Location,Rating,Type,Reason
 95,Y,2,B,3,Cappuccino,C
 96,N,5,,,,
 97,Y,5,Mensa,3,Black Coffee,C
+98,N,5,,,,
+99,Y,3,Campus shop,2,Filter Coffee ,C
+100,Y,3,Campus shop,2,Filter Coffee ,C
+101,Y,3,Campus shop,2,Filter Coffee ,C
+102,Y,6,A,3,Vanilla Cappuccino,C
+103,Y,5,Campus shop,3,Expresso Black,C
+104,Y,1,A,5,Cacao,Q
+105,Y,1,Campus shop,4,Vanilla Latte,C
+106,Y,1,Campus shop,3,Vanilla Latte,C
+107,Y,7,Campus shop,5,Chai Tea,C
+108,Y,3,mensa cafeteria ,4,Cappuccino,P
+109,Y,7,Campus shop,4,Latte,C
+110,Y,4,Green,4,Cappuccino,Q
+111,Y,1,A,4,Vanilla Cappuccino,C
+112,Y,1,A,4,Vanilla Cappuccino,P

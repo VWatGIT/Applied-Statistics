@@ -40,10 +40,14 @@ location_mapping <- c("B" = "Cafe ZessP",
 # replace location B and other variants with Cafe ZessP
 filtered_survey <- filtered_survey |>
   mutate(Location = case_match(Location,
-                                "B" ~ "Cafe ZessP",
-                                "Zess Cafe" ~ "Cafe ZessP",
-                                "I" ~ "Mensa",
-                                .default = Location))
+                              "B" ~ "ZessP",
+                              "Zess Cafe" ~ "ZessP",
+                              "I" ~ "Mensa",
+                              "Cafe im Grünen" ~ "CiG",
+                              "Green" ~ "CiG",
+                              "Sofa Cafe" ~ "Sofa",
+                              "Campus shop" ~ "Campus Shop",
+                              .default = Location))
   
 
 
