@@ -43,12 +43,12 @@ filtered_survey <- filtered_survey |>
                               "B" ~ "ZessP",
                               "Zess Cafe" ~ "ZessP",
                               "I" ~ "Mensa",
+                              "mensa cafeteria" ~ "Mensa",
                               "Cafe im Grünen" ~ "CiG",
                               "Green" ~ "CiG",
                               "Sofa Cafe" ~ "Sofa",
                               "Campus shop" ~ "Campus Shop",
                               .default = Location))
-  
 
 
 all_semesters <- survey$Semester
@@ -163,7 +163,13 @@ ggplot(semester_rating, aes(x = Semester, y = mean_rating)) +
 ```
 ### Mean Location Rating in relation to the amount of mentions N
 ```{r}
-
+ggplot(location_stats, aes(x = N, y = mean_rating)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = "Mean Location Rating in relation with the amount of mentions N",
+       x = "Number of mentions (N)",
+       y = "Mean Rating") +
+  theme_minimal()
 ```
 
 
