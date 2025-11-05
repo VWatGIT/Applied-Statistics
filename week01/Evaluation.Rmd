@@ -9,7 +9,7 @@ output: html_notebook
 
 ```{r}
 rm(list = ls()) # clean workspace
-
+print("Hello Testing....")
 library(ggplot2)
 library(tidyverse)
 
