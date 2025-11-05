@@ -4,26 +4,27 @@ output: html_notebook
 ---
 
 # Evaluating Survey Results
+
 ## Setup
+
 ```{r}
 rm(list = ls()) # clean workspace
 
 library(ggplot2)
 library(tidyverse)
-```
 
+# set local working directory -> change this to your path
+setwd(r"(C:/Users/Valen/Documents/Git-Repositorys/TUHH/Applied Statistics/week01)")
+```
 
 ## Loading the table
+
 ```{r}
-file = r"(C:\Users\Valen\Documents\Git-Repositorys\TUHH\Applied Statistics\week01\Week1_Survey_Results.csv)"
-
-# file = r"(C:\Users\Valentin\Documents\GIT_REPS\TUHH\Applied-Statistics\week01\Week1_Survey_Results.csv)"
-
-survey <- read.csv(file, header = TRUE, sep = ",")
+survey <- read.csv("Week1_Survey_Results.csv", header = TRUE, sep = ",")
 ```
 
-
 ## Clean the Data
+
 ```{r}
 # select all coffee drinkers and remove trailing and leading whitespaces
 filtered_survey <- survey |>
@@ -60,9 +61,10 @@ reasons <-filtered_survey$Reason
 
 ```
 
-
 ## View the Data
+
 ### histograms
+
 ```{r}
 barplot(table(survey$Drinks.Coffee))
 
@@ -74,9 +76,12 @@ barplot(table(ratings))
 barplot(table(reasons))
 barplot(table(locations), cex.names = 0.6, las = 2)
 ```
+
 ## Analyze the data
+
 ### How are the Locations rated and visited?
-```{r} 
+
+```{r}
 # What too much GPT does to a script
 
 reason_counts <- filtered_survey %>%
@@ -108,7 +113,7 @@ plot_data <- plot_data %>%
   mutate(Location = fct_rev(fct_reorder(Location, segment_height, .fun = sum)))
 
 
-ggplot(plot_data, aes(x = Location, y = segment_height, fill = Reason)) + 
+colored_barplot <- ggplot(plot_data, aes(x = Location, y = segment_height, fill = Reason)) + 
   geom_bar(stat = "identity") + 
   theme_minimal() +
   geom_text(aes(label = N),                      # use N as label
@@ -125,7 +130,13 @@ ggplot(plot_data, aes(x = Location, y = segment_height, fill = Reason)) +
     y = "Mean Rating",
     fill = "Reason in % \nwith N answers"
 )
-  
+
+ggsave("Presentation/Location_Ratings.png",
+       width = 7,
+       height = 4,
+       plot = colored_barplot,
+       dpi = 300)
+
 
 # not coloring the bars is significantly simpler
 location_stats <- filtered_survey |> 
@@ -147,7 +158,9 @@ barplot(location_stats$mean_semester,
 
 
 ```
+
 ### How do the semesters correspond to the Students Ratings
+
 ```{r}
 semester_rating <- filtered_survey |>
   group_by(Semester) |>
@@ -161,7 +174,9 @@ ggplot(semester_rating, aes(x = Semester, y = mean_rating)) +
   labs(title = "Mean Rating per Semester with linear trend", y = "Mean Rating", x = "Semester") +
   theme_minimal()
 ```
+
 ### Mean Location Rating in relation to the amount of mentions N
+
 ```{r}
 ggplot(location_stats, aes(x = N, y = mean_rating)) +
   geom_point() +
@@ -171,5 +186,3 @@ ggplot(location_stats, aes(x = N, y = mean_rating)) +
        y = "Mean Rating") +
   theme_minimal()
 ```
-
-
