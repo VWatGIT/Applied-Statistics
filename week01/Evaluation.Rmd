@@ -14,8 +14,8 @@ library(ggplot2)
 library(tidyverse)
 
 # set local working directory -> change this to your path
-
-setwd(r"(C:/AsAd/Python_Related/Applied_Statistics/AppliedStatistics/week01)")
+setwd(r"(C:/Users/Valen/Documents/Git-Repositorys/TUHH/Applied Statistics/week01)")
+# setwd(r"(C:/AsAd/Python_Related/Applied_Statistics/AppliedStatistics/week01)")
 ```
 
 ## Loading the table
@@ -27,12 +27,15 @@ survey <- read.csv("Week1_Survey_Results.csv", header = TRUE, sep = ",")
 ## Clean the Data
 
 ```{r}
+# trim str
+survey <- survey |> mutate(Drinks.Coffee = str_trim(Drinks.Coffee))
+
 # select all coffee drinkers and remove trailing and leading whitespaces
 filtered_survey <- survey |>
   filter(Drinks.Coffee == 'Y') |>
   mutate(across(where(is.character), str_trim))
 
-view(filtered_survey)
+#view(filtered_survey)
 
 location_mapping <- c("B" = "Cafe ZessP",
                       "Cafe Zess" = "Cafe ZessP",
@@ -67,7 +70,13 @@ reasons <-filtered_survey$Reason
 ### Barplots
 
 ```{r}
-barplot(table(survey$Drinks.Coffee))
+png("Presentation/DrinksCoffee.png", width = 800, height = 400)
+
+barplot(table(survey$Drinks.Coffee),
+        main = "Do You Buy Coffee on Campus?",
+        ylab = "No. of Students",
+        col = c("red", "green"))
+dev.off()
 
 # hist(survey$Semester, breaks = seq(0, 20, 1))
 # hist(survey$Rating, breaks = seq(0, 5, 1))
@@ -205,13 +214,18 @@ ggsave("Presentation/semester_vs_rating.png",
 ### Mean Location Rating in relation to the amount of mentions N
 
 ```{r}
-ggplot(location_stats, aes(x = N, y = mean_rating)) +
-  geom_point() +
-  geom_smooth(method = "lm", color = "red") +
-  labs(title = "Mean Location Rating in relation with the amount of mentions N",
+mentions_plot <- ggplot(location_stats, aes(x = N, y = mean_rating)) +
+  geom_point(size = 3, color = "#2196F3") +
+  geom_smooth(method = "lm", color = "#E91E63", linewidth = 1) +
+  labs(title = "How does the Popularity of a Location influence its rating?",
+       subtitle = "Mean location rating in relation to the amount of mentions N", 
        x = "Number of mentions (N)",
        y = "Mean Rating") +
   theme_minimal()
+
+
+ggsave("Presentation/mentions_rating_relation.png",
+       width = 8, height = 5, dpi = 300)
 ```
 #Average Coffee Rating by Location
 ```{r}
