@@ -9,12 +9,13 @@ output: html_notebook
 
 ```{r}
 rm(list = ls()) # clean workspace
-print("Hello Testing....")
+
 library(ggplot2)
 library(tidyverse)
 
 # set local working directory -> change this to your path
-setwd(r"(C:/Users/Valen/Documents/Git-Repositorys/TUHH/Applied Statistics/week01)")
+
+setwd(r"(C:/AsAd/Python_Related/Applied_Statistics/AppliedStatistics/week01)")
 ```
 
 ## Loading the table
@@ -31,7 +32,7 @@ filtered_survey <- survey |>
   filter(Drinks.Coffee == 'Y') |>
   mutate(across(where(is.character), str_trim))
 
-
+view(filtered_survey)
 
 location_mapping <- c("B" = "Cafe ZessP",
                       "Cafe Zess" = "Cafe ZessP",
@@ -63,7 +64,7 @@ reasons <-filtered_survey$Reason
 
 ## View the Data
 
-### histograms
+### Barplots
 
 ```{r}
 barplot(table(survey$Drinks.Coffee))
@@ -74,7 +75,26 @@ barplot(table(survey$Drinks.Coffee))
 barplot(table(all_semesters))
 barplot(table(ratings))
 barplot(table(reasons))
-barplot(table(locations), cex.names = 0.6, las = 2)
+
+# Where do students get their coffee from?
+png("Presentation/Popular_Coffee_Locations.png", width = 1400, height = 1200)
+
+par(mar = c(5, 8, 5, 2))  
+
+barplot(
+  table(locations),
+  main = "Popular Coffee Locations on Campus",
+  ylab = "No. of Students",   
+  cex.lab = 2.0,                
+  las = 1,                       
+  cex.names = 1.6,              
+  cex.main = 3,                  
+  cex.axis = 1.8,                
+  ylim = c(0, max(table(locations)) + 5),
+  col = "#8BC34A"
+)
+
+dev.off()
 ```
 
 ## Analyze the data
@@ -169,10 +189,17 @@ semester_rating <- filtered_survey |>
 print(semester_rating)
 
 ggplot(semester_rating, aes(x = Semester, y = mean_rating)) +
-  geom_point(fill = "skyblue") +
-  geom_smooth(method = "lm", color = "red") +
-  labs(title = "Mean Rating per Semester with linear trend", y = "Mean Rating", x = "Semester") +
-  theme_minimal()
+  geom_point(size = 3, color = "#2196F3", alpha = 0.7) +
+  geom_smooth(method = "lm", color = "#E91E63", se = TRUE, linewidth = 1) +
+  labs(title = "Testing our Hypothesis: Do Students Who Have Studied Longer Rate Their Coffee Higher?",
+       subtitle = "Average Rating per Semester with linear trend", y = "Mean Coffee Rating", x = "Semester") + theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 12, hjust = 0.5),
+    plot.subtitle = element_text(size = 10, hjust = 0.5)
+  ) +
+  ylim(0, 5) 
+ggsave("Presentation/semester_vs_rating.png",
+       width = 8, height = 5, dpi = 300)
 ```
 
 ### Mean Location Rating in relation to the amount of mentions N
@@ -186,3 +213,38 @@ ggplot(location_stats, aes(x = N, y = mean_rating)) +
        y = "Mean Rating") +
   theme_minimal()
 ```
+#Average Coffee Rating by Location
+```{r}
+avg_rating <- filtered_survey %>%
+  group_by(Location) %>%
+  summarise(mean_rating = mean(Rating, na.rm = TRUE),
+            n = n())
+ggplot(avg_rating, aes(x = reorder(Location, mean_rating), y = mean_rating, fill = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "Average Coffee Rating by Location",
+       x = "Location", y = "Mean Rating") +
+  scale_fill_gradient(low = "#FFD54F", high = "#D32F2F") +
+  theme_minimal()
+
+ggsave("Presentation/avg_rating_plot.png",
+       width = 8, height = 5, dpi = 300)
+```
+```{r}
+ggplot(semester_rating, aes(x = Semester, y = mean_rating)) +
+  geom_point(size = 3, color = "#2196F3", alpha = 0.7) +      # larger, transparent blue points
+  geom_smooth(method = "lm", color = "#E91E63", se = TRUE, linewidth = 1) +  # red trendline with confidence area
+  labs(
+    title = "Do Students Who Have Studied Longer Rate Their Coffee Higher?",
+    subtitle = "Average Coffee Rating per Semester with Linear Trend",
+    y = "Mean Coffee Rating (1–5)",
+    x = "Semester"
+  ) +
+  theme_minimal(base_size = 14) +  # slightly larger base font for slides
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    plot.subtitle = element_text(size = 12, hjust = 0.5)
+  ) +
+  ylim(0, 5) 
+```
+
