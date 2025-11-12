@@ -30,13 +30,12 @@ ggplot(freq_real_df, aes(x=size, y=count)) +
   geom_point(size = 3, color = "red") +
   geom_smooth(
     method = "lm",
-    formula = y ~ I(x^2),  # fit y = a*x^2
     color = "blue",
     se = FALSE,
     linetype = 2
   ) +
   scale_x_continuous(
-    breaks = 1:8  # ticks at 1, 2, 3, ..., 8
+    breaks = 1:8
   ) +
   labs(
     title = "Real Data from Drawn Pieces",
@@ -57,17 +56,38 @@ freq_variance_real <- var(freq_real_df$count)
 outcomes <- c(1, 2, 4, 8)
 probabilities <- c(0.25, 0.25, 0.25, 0.25)
 
-set.seed(123)
+set.seed(4)
 sizes_sim <- sample(outcomes, size=62, replace=TRUE, prob=probabilities)
 
 freq_sim <- table(factor(sizes_sim, levels=outcomes))
 freq_sim_df <- as.data.frame(freq_sim)
 colnames(freq_sim_df) <- c("size", "count")
 
+freq_sim_df <- freq_sim_df |>
+  mutate(
+    size = as.numeric(as.character(size)),
+    count = as.numeric(as.character(count))
+  ) |>
+  mutate(percent = count/sum(count)*100)
 
-ggplot(freq_sim_df, aes(x=size, y=count))+
-  geom_col() + 
-  theme_minimal()
+ggplot(freq_sim_df, aes(x=size, y=percent))+
+  geom_col(width = 0.2) +
+  geom_point(size = 3, color = "red") +
+  geom_smooth(
+    method = "lm",
+    color = "blue",
+    se = FALSE,
+    linetype = 2
+  ) +
+  scale_x_continuous(
+    breaks = 1:8
+  ) +
+  labs(
+    title = "Simulated Data from Drawn Pieces, N = 62",
+    x = "Size of drawn piece",
+    y = "Percent of times the size was drawn"
+  ) +
+  theme_minimal() 
 ```
 ### Expected Value and Variance
 ```{r}
