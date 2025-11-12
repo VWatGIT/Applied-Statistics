@@ -1,0 +1,28 @@
+---
+title: "Week 2"
+output: html_notebook
+---
+
+# Week 2 
+
+## Setup
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+# set this to your path
+setwd(r"(C:\Users\Valen\Documents\Git-Repositorys\TUHH\Applied Statistics\week02)")
+
+experiment_data <- read.table("Week_2_Experiment.csv", header=TRUE)
+```
+
+## Evaluating the Real Experiment
+### Frequencies
+```{r}
+freq <- table(factor(experiment_data$PieceSize, levels = c(1, 2, 4, 8)))
+freq_df <- as.data.frame(freq)
+colnames(freq_df) <- c("size", "count")
+
+
+```
+
