@@ -19,10 +19,60 @@ experiment_data <- read.table("Week_2_Experiment.csv", header=TRUE)
 ## Evaluating the Real Experiment
 ### Frequencies
 ```{r}
-freq <- table(factor(experiment_data$PieceSize, levels = c(1, 2, 4, 8)))
-freq_df <- as.data.frame(freq)
-colnames(freq_df) <- c("size", "count")
+freq_real <- table(factor(experiment_data$PieceSize, levels = c(1, 2, 4, 8)))
+freq_real_df <- as.data.frame(freq_real)
+colnames(freq_real_df) <- c("size", "count")
+
+freq_real_df$size <- as.numeric(as.character(freq_real_df$size))
+
+ggplot(freq_real_df, aes(x=size, y=count)) +
+  geom_col(width = 0.2) +
+  geom_point(size = 3, color = "red") +
+  geom_smooth(
+    method = "lm",
+    formula = y ~ I(x^2),  # fit y = a*x^2
+    color = "blue",
+    se = FALSE,
+    linetype = 2
+  ) +
+  scale_x_continuous(
+    breaks = 1:8  # ticks at 1, 2, 3, ..., 8
+  ) +
+  labs(
+    title = "Real Data from Drawn Pieces",
+    x = "Size of drawn piece",
+    y = "Number of times the size was drawn"
+  ) +
+  theme_minimal() 
+  
+```
+### Mean Value and Variance and skweness etc.
+```{r}
+mean_value_real <- mean(experiment_data$PieceSize)
+freq_variance_real <- var(freq_real_df$count) 
+```
+
+## Simulating the Theoretical Experiment
+```{r}
+outcomes <- c(1, 2, 4, 8)
+probabilities <- c(0.25, 0.25, 0.25, 0.25)
+
+set.seed(123)
+sizes_sim <- sample(outcomes, size=62, replace=TRUE, prob=probabilities)
+
+freq_sim <- table(factor(sizes_sim, levels=outcomes))
+freq_sim_df <- as.data.frame(freq_sim)
+colnames(freq_sim_df) <- c("size", "count")
 
 
+ggplot(freq_sim_df, aes(x=size, y=count))+
+  geom_col() + 
+  theme_minimal()
+```
+### Expected Value and Variance
+```{r}
+mean_value_sim <- mean(sizes_sim)
+freq_variance_sim <- var(freq_sim_df$count) # ? makes sense?
+expected_value_sim <- sum(outcomes*probabilities)
 ```
 
