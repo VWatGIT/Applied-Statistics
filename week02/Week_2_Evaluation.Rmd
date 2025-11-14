@@ -54,10 +54,10 @@ freq_variance_real <- var(freq_real_df$count)
 ## Simulating the Theoretical Experiment
 ```{r}
 outcomes <- c(1, 2, 4, 8)
-probabilities <- c(0.25, 0.25, 0.25, 0.25)
+P_model <- c(0.25, 0.25, 0.25, 0.25)
 
 set.seed(4)
-sizes_sim <- sample(outcomes, size=62, replace=TRUE, prob=probabilities)
+sizes_sim <- sample(outcomes, size=62, replace=TRUE, prob=P_model)
 
 freq_sim <- table(factor(sizes_sim, levels=outcomes))
 freq_sim_df <- as.data.frame(freq_sim)
@@ -93,6 +93,61 @@ ggplot(freq_sim_df, aes(x=size, y=percent))+
 ```{r}
 mean_value_sim <- mean(sizes_sim)
 freq_variance_sim <- var(freq_sim_df$count) # ? makes sense?
-expected_value_sim <- sum(outcomes*probabilities)
+expected_value_sim <- sum(outcomes*P_model)
 ```
+## Assume Linear Model
+The probability P_i of a piece being drawn is the proportional to its size s.
+We have four pieces with sizes \( s_i \in \{1, 2, 4, 8\} \).
+
+\[
+s_{\text{total}} = \sum_{i \in \{1, 2, 4, 8\}} s_i = 1 + 2 + 4 + 8 = 15
+\]
+
+\[
+P_i = \frac{s_i}{s_{\text{total}}}
+\]
+
+\[
+P_1 = \frac{1}{15}, \quad
+P_2 = \frac{2}{15}, \quad
+P_4 = \frac{4}{15}, \quad
+P_8 = \frac{8}{15}
+\]
+
+Expected Size drawn:
+```{r}
+sizes = c(1, 2, 4, 8)
+P_model_alt = sizes/sum(sizes)
+expected_value_linear = P_model_alt %*% sizes
+print(expected_value_linear)
+```
+Expected Number of Draws for each piece for \(N = 62\):
+```{r}
+N = 62
+expected_draws_model = N * P_model
+expected_draws_model_alt = N * P_model_alt
+
+
+
+ggplot(freq_real_df, ) +
+  geom_point(aes(x = size, y = count, color = "Observed"), size = 3) + 
+  geom_point(aes(x = size, y = expected_draws_model_alt, color = "Alternate Model"),
+             size = 3) +
+  geom_point(aes(x = size, y = expected_draws_model, color = "Original Model"),
+             size = 3) +
+  geom_smooth(aes(x = size, y = count, color = "Observed"),
+              method = lm, se = FALSE, linetype = 3) + 
+  geom_smooth(aes(x = size, y = expected_draws_model_alt, color = "Alternate Model"),
+              method = lm, se = FALSE, linetype = 2) +
+  geom_smooth(aes(x = size, y = expected_draws_model, color = "Original Model"),
+              method = lm, se = FALSE, linetype = 2) +
+  labs(title = "Comparing the experiments results to the simulated models",
+       color = "Type") +
+  scale_color_manual(values = c("Observed" = "black",
+                                "Original Model" = "blue",
+                                "Alternate Model" = "red")) +
+  theme_minimal()
+```
+
+
 
