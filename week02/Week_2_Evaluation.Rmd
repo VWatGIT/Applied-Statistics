@@ -4,6 +4,12 @@ output: html_notebook
 ---
 
 # Week 2 
+The Experiment conceived was mutliple people drawing a single lego-piece from 
+a bag containing multiple sizes. Possible sizes where: 1, 2, 4, 8, 
+all being multiples of another. After Drawing one Piece it was put back into 
+the bag. A total of 62 Participants were asked.
+
+![The Bag with the lego pieces next to it](ExperimentSetup.jpg)
 
 ## Setup
 ```{r}
@@ -14,7 +20,11 @@ library(ggplot2)
 setwd(r"(C:\Users\Valen\Documents\Git-Repositorys\TUHH\Applied Statistics\week02)")
 
 experiment_data <- read.table("Week_2_Experiment.csv", header=TRUE)
+
+
 ```
+
+
 
 ## Evaluating the Real Experiment
 ### Frequencies
@@ -54,10 +64,10 @@ freq_variance_real <- var(freq_real_df$count)
 ## Simulating the Theoretical Experiment
 ```{r}
 outcomes <- c(1, 2, 4, 8)
-P_model <- c(0.25, 0.25, 0.25, 0.25)
+P_uniform<- c(0.25, 0.25, 0.25, 0.25)
 
 set.seed(4)
-sizes_sim <- sample(outcomes, size=62, replace=TRUE, prob=P_model)
+sizes_sim <- sample(outcomes, size=62, replace=TRUE, prob=P_uniform)
 
 freq_sim <- table(factor(sizes_sim, levels=outcomes))
 freq_sim_df <- as.data.frame(freq_sim)
@@ -93,7 +103,7 @@ ggplot(freq_sim_df, aes(x=size, y=percent))+
 ```{r}
 mean_value_sim <- mean(sizes_sim)
 freq_variance_sim <- var(freq_sim_df$count) # ? makes sense?
-expected_value_sim <- sum(outcomes*P_model)
+expected_value_sim <- sum(outcomes*P_uniform)
 ```
 ## Assume Linear Model
 The probability P_i of a piece being drawn is the proportional to its size s.
@@ -117,37 +127,60 @@ P_8 = \frac{8}{15}
 Expected Size drawn:
 ```{r}
 sizes = c(1, 2, 4, 8)
-P_model_alt = sizes/sum(sizes)
-expected_value_linear = P_model_alt %*% sizes
+P_proportional = sizes/sum(sizes)
+expected_value_linear = P_proportional %*% sizes
 print(expected_value_linear)
 ```
 Expected Number of Draws for each piece for \(N = 62\):
 ```{r}
-N = 62
-expected_draws_model = N * P_model
-expected_draws_model_alt = N * P_model_alt
+N <- 62
+expected_draws_uniform <- N * P_uniform
+expected_draws_proportional <- N * P_proportional
 
 
 
 ggplot(freq_real_df, ) +
   geom_point(aes(x = size, y = count, color = "Observed"), size = 3) + 
-  geom_point(aes(x = size, y = expected_draws_model_alt, color = "Alternate Model"),
+  geom_point(aes(x = size, y = expected_draws_proportional, color = "Proportional Model"),
              size = 3) +
-  geom_point(aes(x = size, y = expected_draws_model, color = "Original Model"),
+  geom_point(aes(x = size, y = expected_draws_uniform, color = "Uniform Model"),
              size = 3) +
   geom_smooth(aes(x = size, y = count, color = "Observed"),
               method = lm, se = FALSE, linetype = 3) + 
-  geom_smooth(aes(x = size, y = expected_draws_model_alt, color = "Alternate Model"),
+  geom_smooth(aes(x = size, y = expected_draws_proportional, color = "Proportional Model"),
               method = lm, se = FALSE, linetype = 2) +
-  geom_smooth(aes(x = size, y = expected_draws_model, color = "Original Model"),
+  geom_smooth(aes(x = size, y = expected_draws_uniform, color = "Uniform Model"),
               method = lm, se = FALSE, linetype = 2) +
   labs(title = "Comparing the experiments results to the simulated models",
        color = "Type") +
   scale_color_manual(values = c("Observed" = "black",
-                                "Original Model" = "blue",
-                                "Alternate Model" = "red")) +
+                                "Uniform Model" = "blue",
+                                "Proportional Model" = "red")) +
   theme_minimal()
 ```
 
+## Perform Chi Squared Test to evaluate goodness of fit
+```{r}
+observed_counts <- freq_real_df$count
 
+test_uniform <- chisq.test(x = observed_counts, p = P_uniform)
+test_proportional <- chisq.test(x = observed_counts, p = P_proportional)
 
+print(test_uniform)
+print(test_proportional)
+```
+We see a High \(X^2\) Value for the uniform model with a very low p-value, proving the 
+uniform model to not be a good fit.
+
+The \(X^2 = 5.076\) Value for the proportional Model however is significantly lower and 
+smaller than 7.815, which represents the critical value for 3 degrees of freedom. 
+The p-value is significant.
+
+**The proportional model is a plausible and good fit for our data.**
+
+### Reasons for no drawings of the small 1-Piece
+
+  - Stuck in the corners of the bag
+  - Fast decision of the participants
+  - very difficult to grab
+  - people might think its too small to be random
