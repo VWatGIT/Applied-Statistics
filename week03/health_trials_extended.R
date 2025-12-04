@@ -38,4 +38,5 @@ cont_table_ages = ftable(xtabs(value ~ Group.2+time, data=total_by_year_and_age)
 expected_probability_table = matrix(1/22, 22, 25)
 
 #performing a chi squared test
-chisq.test(cont_table_ages, p = expected_probability_table)
+chisq.test(x = cont_table_ages, p = expected_probability_table) 
+# I guess the null hypothesis is so very rejected lol
