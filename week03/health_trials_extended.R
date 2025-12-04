@@ -30,3 +30,12 @@ total_by_year_and_age <- aggregate(dat_focused["value"], by = list(time = dat_fo
 
 ggplot(total_by_year_and_age, aes(time, value, color=Group.2)) +
   geom_line()
+
+#creating contingency table based on age and year
+cont_table_ages = ftable(xtabs(value ~ Group.2+time, data=total_by_year_and_age))
+
+#creating expected probability distribution for cancers where it is assumed that each age group is equally likely to suffer from cancer
+expected_probability_table = matrix(1/22, 22, 25)
+
+#performing a chi squared test
+chisq.test(cont_table_ages, p = expected_probability_table)
