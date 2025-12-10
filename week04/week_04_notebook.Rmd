@@ -1,0 +1,20 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+setwd(r"(C:/Users/Valentin/Documents/GIT_REPS/TUHH/Applied-Statistics/week03)")
+
+```
+
+```{r}
+video_game_data <- read.csv("Video_Games_Sales_as_at_22_Dec_2016.csv")
+```
+
+Y = User Score
+X1 = Critic Score
+X2 = Year of Release
+X3 = Global Sales
